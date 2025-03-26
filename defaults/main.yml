@@ -1,0 +1,6 @@
+---
+bindmount_dir: "/data/bindmounts"
+domain: "{{ lookup('env', 'DOMAIN') }}"
+vlan_docker_name: "{{ lookup('env', 'VLAN_DOCKER_NAME') }}"
+vlan_docker_subnet: "{{ lookup('env', 'VLAN_DOCKER_SUBNET') }}"
+vlan_docker_gw: "{{ lookup('env', 'VLAN_DOCKER_GW') }}"

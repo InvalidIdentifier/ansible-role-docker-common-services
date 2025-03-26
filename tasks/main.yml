@@ -1,0 +1,39 @@
+---
+# create directories for bindmount
+- name: create bindmount directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ bindmount_dir }}/promtail"
+    - "{{ bindmount_dir }}/traefik"
+
+# copy promtail config
+- name: copy config for promtail
+  template:
+    src: config.yml.j2
+    dest: "{{ bindmount_dir }}/promtail/config.yml"
+
+# copy traefik config
+- name: copy config for traefik
+  template:
+    src: dynamic_conf.yml.j2
+    dest: "{{ bindmount_dir }}/traefik/dynamic_conf.yml"
+
+# copy docker-compose.yml
+- name: copy docker-compose.yml
+  template:
+    src: docker-compose.yml.j2
+    dest: /home/user/docker-compose.yml
+
+# create .env from variable
+- name: create .env file
+  ansible.builtin.copy:
+    dest: /home/user/.env
+    content: "{{ lookup('env', 'DOCKER_ENV') }}"
+
+# run docker container
+- name: start containers
+  command: docker compose up -d --remove-orphans
+...

@@ -1,0 +1,15 @@
+galaxy_info:
+  role_name: docker_common_services
+  author: invalididentifier
+  description: installs common docker containers for monitoring
+
+  license: GPL-2.0-or-later
+
+  min_ansible_version: 2.9
+
+  galaxy_tags: []
+
+dependencies: []
+
+collections:
+  - community.docker
