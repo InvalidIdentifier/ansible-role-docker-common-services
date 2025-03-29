@@ -24,7 +24,7 @@
 # copy docker-compose.yml
 - name: copy docker-compose.yml
   template:
-    src: docker-compose.yml.j2
+    src: docker-compose-common.yml.j2
     dest: /home/user/docker-compose-common.yml
 
 # create .env from variable
