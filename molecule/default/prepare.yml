@@ -7,9 +7,8 @@
         state: present
         update_cache: yes
 
-    - name: print current user
-      command: whoami
-      register: whoami_result
-
-    - debug:
-        var: whoami_result.stdout
+    - name: create home directory for compose files
+      file:
+        path: "/home/user/"
+        state: directory
+        mode: '0755'
