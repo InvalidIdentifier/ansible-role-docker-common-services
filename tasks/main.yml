@@ -25,7 +25,7 @@
 - name: copy docker-compose.yml
   template:
     src: docker-compose.yml.j2
-    dest: /home/user/docker-compose.yml
+    dest: /home/user/docker-compose-common.yml
 
 # create .env from variable
 - name: create .env file
@@ -35,5 +35,5 @@
 
 # run docker container
 - name: start containers
-  command: docker compose up -d --remove-orphans
+  command: docker compose up -f /home/user/docker-compose-common.yml -d --remove-orphans
 ...
