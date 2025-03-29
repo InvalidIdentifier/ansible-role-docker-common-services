@@ -35,7 +35,7 @@
 
 # run docker container
 - name: start containers
-  command: docker compose up -f /home/user/docker-compose-common.yml -d --remove-orphans
+  command: docker compose -f /home/user/docker-compose-common.yml up -d --remove-orphans
   when: 
     - ansible_virtualization_type != "docker"
 ...
