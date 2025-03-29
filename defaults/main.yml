@@ -4,3 +4,21 @@ domain: "{{ lookup('env', 'DOMAIN') }}"
 vlan_docker_name: "{{ lookup('env', 'VLAN_DOCKER_NAME') }}"
 vlan_docker_subnet: "{{ lookup('env', 'VLAN_DOCKER_SUBNET') }}"
 vlan_docker_gw: "{{ lookup('env', 'VLAN_DOCKER_GW') }}"
+trusted_ips_list:
+  - 127.0.0.1/32
+  - "{{ lookup('env', 'VLAN_INFRA') }}.100/32"
+traefik_entrypoints:
+  http:
+    port: 80
+    trusted_ips: "{{ trusted_ips_list }}"
+  https:
+    port: 443
+    trusted_ips: "{{ trusted_ips_list }}"
+  nodeexporter:
+    port: 9100
+    extra_config:
+      - "--entryPoints.nodeexporter.transport.respondingTimeouts.readTimeout=0"
+traefik_ports:
+  - "80:80"
+  - "443:443"
+  - "9100:9100"
