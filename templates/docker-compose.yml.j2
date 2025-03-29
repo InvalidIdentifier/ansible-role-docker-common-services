@@ -23,17 +23,19 @@ services:
       - "--accesslog.fields.headers.defaultmode=keep"
       - "--log.filePath=/etc/traefik/traefik.log"
       - "--log.level=DEBUG"
-      {% for ep_name, ep_data in traefik_entrypoints.items() %}
+{% if traefik_entrypoints is defined %}
+{% for ep_name, ep_data in traefik_entrypoints.items() %}
       - "--entrypoints.{{ ep_name }}.address=:{{ ep_data.port }}"
-      {% if ep_data.trusted_ips is defined %}
+{% if ep_data.trusted_ips is defined %}
       - "--entryPoints.{{ ep_name }}.forwardedHeaders.trustedIPs={{ ep_data.trusted_ips | join(',') }}"
-      {% endif %}
-      {% if ep_data.extra_config is defined %}
-      {% for line in ep_data.extra_config %}
+{% endif %}
+{% if ep_data.extra_config is defined %}
+{% for line in ep_data.extra_config %}
       - "{{ line }}"
-      {% endfor %}
-      {% endif %}
-      {% endfor %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.docker.exposedByDefault=false"
       - "--providers.file.filename=/etc/traefik/dynamic_conf.yml"
@@ -52,9 +54,11 @@ services:
     dns:
       - "${DNS_SERVER}"
     ports:
-      {% for port in traefik_ports %}
-      - "{{ port }}"
-      {% endfor %}
+{% if traefik_entrypoints is defined %}
+{% for ep in traefik_entrypoints.values() %}
+      - "{{ ep.port }}:{{ ep.port }}"
+{% endfor %}
+{% endif %}
     privileged: true
     labels:
       - traefik.enable=true
