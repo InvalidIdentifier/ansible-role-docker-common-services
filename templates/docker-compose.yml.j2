@@ -37,7 +37,7 @@ services:
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.docker.exposedByDefault=false"
       - "--providers.file.filename=/etc/traefik/dynamic_conf.yml"
-      - "--certificatesresolvers.cloudflare.acme.email={{ EMAIL_ME }}"
+      - "--certificatesresolvers.cloudflare.acme.email=${EMAIL_ME}"
       - "--certificatesresolvers.cloudflare.acme.storage=/etc/traefik/acme.json"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
       - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
