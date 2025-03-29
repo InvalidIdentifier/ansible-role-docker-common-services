@@ -50,7 +50,7 @@ services:
       web:
         ipv4_address: "172.21.0.104"
     dns:
-      - "{{ DNS_SERVER }}"
+      - "${DNS_SERVER}"
     ports:
       {% for port in traefik_ports %}
       - "{{ port }}"
@@ -88,7 +88,7 @@ services:
       - '/:/host:ro,rslave'
       - '/etc/localtime:/etc/localtime:ro'
     dns:
-      - "{{ DNS_SERVER }}"
+      - "${DNS_SERVER}"
     network_mode: web
     command:
       - '--path.rootfs=/host'
@@ -106,7 +106,7 @@ services:
     container_name: cadvisor-{{ ansible_nodename }}
     hostname: cadvisor-{{ ansible_nodename }}.${DOMAIN}
     dns:
-      - "{{ DNS_SERVER }}"
+      - "${DNS_SERVER}"
     network_mode: web
     volumes:
       - '/:/rootfs:ro'
@@ -138,7 +138,7 @@ services:
       - '/etc/localtime:/etc/localtime:ro'
     command: -config.file=/etc/promtail/config.yml
     dns:
-      - "{{ DNS_SERVER }}"
+      - "${DNS_SERVER}"
     network_mode: web
     restart: unless-stopped
 
