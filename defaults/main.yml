@@ -1,9 +1,6 @@
 ---
 bindmount_dir: "/data/bindmounts"
 domain: "{{ lookup('env', 'DOMAIN') }}"
-vlan_docker_name: "{{ lookup('env', 'VLAN_DOCKER_NAME') }}"
-vlan_docker_subnet: "{{ lookup('env', 'VLAN_DOCKER_SUBNET') }}"
-vlan_docker_gw: "{{ lookup('env', 'VLAN_DOCKER_GW') }}"
 trusted_ips_list:
   - 127.0.0.1/32
   - "{{ lookup('env', 'VLAN_INFRA') }}.100/32"
