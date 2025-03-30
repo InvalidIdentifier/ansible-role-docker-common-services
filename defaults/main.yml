@@ -18,6 +18,8 @@ traefik_entrypoints:
     port: 9100
     extra_config:
       - "--entryPoints.nodeexporter.transport.respondingTimeouts.readTimeout=0"
+  cadvisor:
+    port: 8080
 traefik_ports:
   - "80:80"
   - "443:443"
