@@ -54,7 +54,8 @@ services:
     ports:
 {% if traefik_entrypoints is defined %}
 {% for ep in traefik_entrypoints.values() %}
-      - "{{ ep.port }}:{{ ep.port }}"
+{% set host_port = ep.port.split('/')[0] %}
+      - "{{ host_port }}:{{ ep.port }}"
 {% endfor %}
 {% endif %}
     privileged: true
