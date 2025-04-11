@@ -18,7 +18,6 @@
 # check if dynamic_conf.yml already exists
 - name: check if traefik config exists
   ansible.builtin.stat:
-  stat:
     path: "{{ bindmount_dir }}/traefik/dynamic_conf.yml"
   register: traefik_config_stat
 
