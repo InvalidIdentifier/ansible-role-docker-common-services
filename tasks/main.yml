@@ -15,11 +15,19 @@
     src: config.yml.j2
     dest: "{{ bindmount_dir }}/promtail/config.yml"
 
-# copy traefik config
+# check if dynamic_conf.yml already exists
+- name: check if traefik config exists
+  ansible.builtin.stat:
+  stat:
+    path: "{{ bindmount_dir }}/traefik/dynamic_conf.yml"
+  register: traefik_config_stat
+
+# copy dynamic_conf.yml if not already existant
 - name: copy config for traefik
   template:
     src: dynamic_conf.yml.j2
     dest: "{{ bindmount_dir }}/traefik/dynamic_conf.yml"
+  when: not traefik_config_stat.stat.exists
 
 # copy docker-compose.yml
 - name: copy docker-compose.yml
