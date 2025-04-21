@@ -1,0 +1,48 @@
+---
+- name: verify
+  hosts: all
+  gather_facts: false
+  vars:
+    directories:
+      - "{{ bindmount_dir }}/promtail"
+      - "{{ bindmount_dir }}/traefik"
+    files:
+      - "{{ bindmount_dir }}/promtail/config.yml"
+      - "{{ bindmount_dir }}/traefik/dynamic_conf.yml"
+      - "/home/user/docker-compose-common.yml"
+  tasks:
+    - name: check if directories exist
+      ansible.builtin.stat:
+        path: "{{ item }}"
+      loop: "{{ directories }}"
+      register: directories_exist
+      changed_when: false
+
+    - name: check if files exist
+      ansible.builtin.stat:
+        path: "{{ item }}"
+      loop: "{{ files }}"
+      register: files_exist
+      changed_when: false
+
+    - name: confirm directories exist
+      ansible.builtin.assert:
+        that:
+          - item.stat.exists
+          - item.stat.isdir
+        fail_msg: "Verzeichnis {{ item.stat.path | default('unbekannt') }} existiert nicht oder ist kein Verzeichnis"
+        success_msg: "Verzeichnis {{ item.stat.path }} existiert"
+      loop: "{{ directories_exist.results }}"
+      loop_control:
+        label: "{{ item.stat.path }}"
+
+    - name: confirm files exist
+      ansible.builtin.assert:
+        that:
+          - item.stat.exists
+          - not item.stat.isdir
+        fail_msg: "Datei {{ item.stat.path | default('unbekannt') }} existiert nicht oder ist ein Verzeichnis"
+        success_msg: "Datei {{ item.stat.path }} existiert"
+      loop: "{{ files_exist.results }}"
+      loop_control:
+        label: "{{ item.stat.path }}"
