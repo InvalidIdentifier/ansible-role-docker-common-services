@@ -3,7 +3,7 @@ bindmount_dir: "/data/bindmounts"
 domain: "{{ lookup('env', 'DOMAIN') }}"
 trusted_ips_list:
   - 127.0.0.1/32
-  - "{{ lookup('env', 'VLAN_INFRA') }}.100/32"
+  - "{{ lookup('env', 'VLAN_DMZ') }}.100/32"
 traefik_entrypoints:
   http:
     port: 80
